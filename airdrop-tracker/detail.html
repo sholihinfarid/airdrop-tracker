@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Detail — AIRDROP TRACKER</title>
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/detail.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <div class="detail-app">
+      <!-- ── Back nav ──────────────────────────────── -->
+      <button class="back-btn" onclick="window.location.href = 'index.html'">
+        ← Kembali ke Dashboard
+      </button>
+
+      <!-- ── Hero ──────────────────────────────────── -->
+      <div class="detail-hero">
+        <div class="hero-top">
+          <!-- Logo -->
+          <div class="hero-logo" id="heroLogo">
+            <input
+              type="file"
+              id="heroLogoInput"
+              accept="image/*"
+              style="display: none"
+            />
+          </div>
+
+          <!-- Info -->
+          <div class="hero-info">
+            <h1 id="heroTitle">Loading...</h1>
+            <div class="hero-badges" id="heroBadges"></div>
+            <div class="hero-meta" id="heroMeta"></div>
+          </div>
+
+          <!-- Score -->
+          <div class="score-display" id="scoreDisplay"></div>
+        </div>
+      </div>
+
+      <!-- ── Content grid ──────────────────────────── -->
+      <div class="detail-grid">
+        <!-- Left column -->
+        <div class="left-col">
+          <!-- Status changer -->
+          <div class="card">
+            <div class="card-title">🔄 Ubah Status</div>
+            <div class="status-btns" id="statusBtns"></div>
+          </div>
+
+          <!-- Steps -->
+          <div class="card">
+            <div class="card-title">📋 Cara Pengerjaan</div>
+            <div
+              id="stepsProgress"
+              style="display: none"
+              class="progress-wrap"
+            ></div>
+            <div class="steps-list" id="stepsList"></div>
+          </div>
+
+          <!-- Description -->
+          <div class="card">
+            <div class="card-title">📝 Deskripsi & Catatan</div>
+            <div class="notes-area" id="notesContent"></div>
+          </div>
+        </div>
+        <!-- /left-col -->
+
+        <!-- Right column -->
+        <div class="right-col">
+          <!-- Edit button -->
+          <div class="card" style="padding: 16px">
+            <button
+              class="btn btn-primary"
+              style="width: 100%; justify-content: center"
+              onclick="editProject()"
+            >
+              ✏️ Edit Project
+            </button>
+          </div>
+
+          <!-- Project info -->
+          <div class="card">
+            <div class="card-title">ℹ️ Info Project</div>
+            <div class="info-rows" id="infoRows"></div>
+          </div>
+
+          <!-- Links -->
+          <div class="card">
+            <div class="card-title">🔗 Links</div>
+            <div id="linksSection"></div>
+          </div>
+
+          <!-- Tips card -->
+          <div
+            class="card"
+            style="
+              background: rgba(0, 255, 136, 0.04);
+              border-color: rgba(0, 255, 136, 0.15);
+            "
+          >
+            <div class="card-title" style="color: var(--accent)">💡 Tips</div>
+            <ul
+              style="
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+              "
+            >
+              <li
+                style="font-size: 13px; color: var(--text2); line-height: 1.5"
+              >
+                ✓ Klik lingkaran nomor di <strong>Cara Pengerjaan</strong> untuk
+                menandai langkah selesai
+              </li>
+              <li
+                style="font-size: 13px; color: var(--text2); line-height: 1.5"
+              >
+                ✓ Klik logo di kiri atas untuk
+                <strong>ganti gambar logo</strong> project
+              </li>
+              <li
+                style="font-size: 13px; color: var(--text2); line-height: 1.5"
+              >
+                ✓ Gunakan tombol <strong>Ubah Status</strong> untuk update
+                progress airdrop
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- /right-col -->
+      </div>
+      <!-- /.detail-grid -->
+    </div>
+    <!-- /.detail-app -->
+
+    <!-- ── Scripts ───────────────────────────────── -->
+    <script src="js/data.js"></script>
+    <script src="js/detail.js"></script>
+  </body>
+</html>

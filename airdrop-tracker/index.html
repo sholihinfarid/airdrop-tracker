@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AirdropTrackr — Dashboard</title>
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <div class="app">
+      <!-- ── Header ──────────────────────────────── -->
+      <header class="header">
+        <div class="logo">
+          <div class="logo-icon">🪂</div>
+          <div class="logo-text">
+            <h1>AIRDROP<span>TRACKER</span></h1>
+            <p>My Personal Portfolio Tracker</p>
+          </div>
+        </div>
+        <div class="stats-bar" id="statsBar"></div>
+      </header>
+
+      <!-- ── Toolbar ─────────────────────────────── -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Cari project..."
+            oninput="render()"
+          />
+        </div>
+
+        <select id="filterStatus" onchange="render()">
+          <option value="">Semua Status</option>
+          <option value="Potential">🤔 Potential</option>
+          <option value="Confirmed">✅ Confirmed</option>
+          <option value="Claimed">🎉 Claimed</option>
+          <option value="Missed">❌ Missed</option>
+        </select>
+
+        <select id="filterTask" onchange="render()">
+          <option value="">Semua Task</option>
+          <option value="Social">Social</option>
+          <option value="Testnet">Testnet</option>
+          <option value="Trading">Trading</option>
+          <option value="Node">Node</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <button class="btn btn-primary" onclick="openAddModal()">
+          ＋ Tambah Project
+        </button>
+      </div>
+
+      <!-- ── Table ───────────────────────────────── -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 36px"></th>
+              <th class="sortable" onclick="setSortBy('name')">
+                Project <span class="sa">↕</span>
+              </th>
+              <th class="sortable" onclick="setSortBy('task')">
+                Task <span class="sa">↕</span>
+              </th>
+              <th class="sortable" onclick="setSortBy('status')">
+                Status <span class="sa">↕</span>
+              </th>
+              <th>Reward</th>
+              <th class="sortable" onclick="setSortBy('raise')">
+                Raise/Funds <span class="sa">↕</span>
+              </th>
+              <th class="sortable" onclick="setSortBy('score')">
+                Score <span class="sa">↕</span>
+              </th>
+              <th class="sortable" onclick="setSortBy('createdAt')">
+                Tanggal <span class="sa">↕</span>
+              </th>
+              <th style="width: 80px">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- ── Empty state ─────────────────────────── -->
+      <div id="emptyState" class="empty-state" style="display: none">
+        <div class="empty-icon">🌐</div>
+        <h3>Belum ada project</h3>
+        <p>
+          Klik <strong>Tambah Project</strong> untuk mulai tracking airdrop
+          kamu!
+        </p>
+      </div>
+    </div>
+    <!-- /.app -->
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!--   MODAL ADD / EDIT                          -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div
+      class="overlay"
+      id="overlay"
+      style="display: none"
+      onclick="closeOnOverlay(event)"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <h2 class="modal-title" id="modalTitle">
+            Tambah <span>Project</span>
+          </h2>
+          <button class="close-btn" onclick="hideModal()">×</button>
+        </div>
+
+        <!-- Logo upload -->
+        <div class="form-group" style="margin-bottom: 16px">
+          <label>Logo Project</label>
+          <div class="logo-upload-area">
+            <input
+              type="file"
+              accept="image/*"
+              onchange="handleModalLogoChange(event)"
+            />
+            <div class="logo-preview-wrap">
+              <div class="logo-preview" id="logoModalPreview">?</div>
+              <div class="logo-upload-hint">
+                <p>Klik untuk pilih gambar logo</p>
+                <small>PNG, JPG, WebP — maks. 2MB</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group form-full">
+            <label>Nama Project *</label>
+            <input
+              id="f_name"
+              type="text"
+              placeholder="e.g. Robinhood Chain"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Tipe Task</label>
+            <select id="f_task">
+              <option>Social</option>
+              <option>Testnet</option>
+              <option>Trading</option>
+              <option>Node</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select id="f_status">
+              <option>Potential</option>
+              <option>Confirmed</option>
+              <option>Claimed</option>
+              <option>Missed</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Reward Type</label>
+            <select id="f_reward">
+              <option>Airdrop</option>
+              <option>Points</option>
+              <option>NFT</option>
+              <option>Token</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Biaya (USD)</label>
+            <input id="f_cost" type="number" min="0" placeholder="0" />
+          </div>
+
+          <div class="form-group">
+            <label>Raise / Funds</label>
+            <input id="f_raise" type="text" placeholder="e.g. 17.50M" />
+          </div>
+
+          <div class="form-group">
+            <label>Moni Score</label>
+            <input id="f_score" type="number" min="0" placeholder="0" />
+          </div>
+
+          <div class="form-group">
+            <label>Network / Chain</label>
+            <input
+              id="f_network"
+              type="text"
+              placeholder="e.g. ETH, SOL, ARB"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Estimasi Waktu (mnt)</label>
+            <input id="f_timeMin" type="number" min="1" placeholder="10" />
+          </div>
+
+          <div class="form-group">
+            <label>Link Official</label>
+            <input id="f_link" type="url" placeholder="https://..." />
+          </div>
+
+          <div class="form-group form-full">
+            <label>Deskripsi / Catatan</label>
+            <textarea
+              id="f_description"
+              placeholder="Tulis deskripsi project, info penting, strategi, dll..."
+            ></textarea>
+          </div>
+
+          <!-- Steps / Cara Pengerjaan -->
+          <div class="form-group form-full">
+            <label>Langkah Pengerjaan</label>
+            <div class="steps-editor">
+              <div id="stepsContainer"></div>
+              <button
+                type="button"
+                class="add-step-btn"
+                onclick="addModalStep()"
+              >
+                ＋ Tambah Langkah
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- /.form-grid -->
+
+        <div class="modal-footer">
+          <button class="btn btn-ghost" onclick="hideModal()">Batal</button>
+          <button class="btn btn-primary" onclick="saveProject()">
+            💾 Simpan
+          </button>
+        </div>
+      </div>
+      <!-- /.modal -->
+    </div>
+    <!-- /.overlay -->
+
+    <!-- ── Scripts ─────────────────────────────── -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+      // Handle ?edit=id from detail page redirect
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const editId = params.get("edit");
+        if (editId) {
+          // clean URL without reload
+          history.replaceState({}, "", "index.html");
+          // open modal after DOM is ready via DOMContentLoaded override
+          document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+              openEditModal(editId);
+            },
+            { once: true },
+          );
+        }
+      })();
+    </script>
+  </body>
+</html>

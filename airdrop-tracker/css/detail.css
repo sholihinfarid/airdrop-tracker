@@ -1,0 +1,195 @@
+/* =============================================
+   detail.css — Project Detail Page Styles
+   ============================================= */
+
+.detail-app { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+/* ── Back nav ────────────────────────────────── */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--muted); font-size: 13px; cursor: pointer;
+  margin-bottom: 24px; transition: color .15s;
+  background: none; border: none; font-family: var(--font-display);
+  padding: 0;
+}
+.back-btn:hover { color: var(--accent); }
+
+/* ── Hero header ─────────────────────────────── */
+.detail-hero {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  position: relative; overflow: hidden;
+}
+.detail-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,255,136,.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-top {
+  display: flex; align-items: flex-start; gap: 20px;
+  flex-wrap: wrap;
+}
+.hero-logo {
+  width: 72px; height: 72px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; font-weight: 800; flex-shrink: 0;
+  overflow: hidden; position: relative;
+}
+.hero-logo img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
+.hero-logo-change {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.6);
+  display: none; align-items: center; justify-content: center;
+  border-radius: 16px; font-size: 18px; cursor: pointer;
+}
+.hero-logo:hover .hero-logo-change { display: flex; }
+
+.hero-info { flex: 1; min-width: 200px; }
+.hero-info h1 { font-size: 28px; font-weight: 800; letter-spacing: -.5px; line-height: 1.1; margin-bottom: 8px; }
+.hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.hero-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+.meta-item { display: flex; flex-direction: column; gap: 2px; }
+.meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 700; }
+.meta-value { font-size: 14px; font-weight: 600; font-family: var(--font-mono); }
+
+.hero-actions {
+  display: flex; gap: 8px; align-items: flex-start; flex-wrap: wrap;
+  margin-left: auto;
+}
+
+/* ── Score display ───────────────────────────── */
+.score-display {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+}
+.score-big {
+  font-size: 36px; font-weight: 800; font-family: var(--font-mono);
+  line-height: 1;
+}
+.score-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.score-bar-lg {
+  width: 120px; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;
+}
+.score-bar-lg-fill { height: 100%; border-radius: 4px; }
+
+/* ── Layout grid ─────────────────────────────── */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+}
+@media (max-width: 800px) {
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-hero { padding: 20px; }
+  .hero-info h1 { font-size: 22px; }
+  .score-big { font-size: 28px; }
+}
+
+/* ── Card ────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 18px;
+}
+.card:last-child { margin-bottom: 0; }
+.card-title {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--muted); font-weight: 700; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-title::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── Steps / Tasks ───────────────────────────── */
+.steps-list { display: flex; flex-direction: column; gap: 10px; }
+.step-row {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 14px;
+  background: var(--surface2); border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: border-color .2s;
+}
+.step-row:hover { border-color: var(--border2); }
+.step-circle {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--surface3); border: 2px solid var(--border2);
+  color: var(--muted); font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all .2s; cursor: pointer;
+}
+.step-row.done .step-circle {
+  background: var(--accent); border-color: var(--accent);
+  color: #000;
+}
+.step-row.done .step-text { text-decoration: line-through; color: var(--muted); }
+.step-text { font-size: 14px; flex: 1; line-height: 1.5; padding-top: 4px; }
+
+.steps-empty {
+  text-align: center; padding: 32px; color: var(--muted);
+  font-size: 13px;
+}
+
+/* Progress bar */
+.progress-wrap { margin-bottom: 16px; }
+.progress-bg { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; transition: width .4s ease; }
+.progress-label {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: var(--muted);
+  font-family: var(--font-mono); margin-top: 6px;
+}
+
+/* ── Notes ───────────────────────────────────── */
+.notes-area {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px;
+  min-height: 80px;
+}
+.notes-area p { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.notes-area p.empty { color: var(--muted); font-style: italic; }
+
+/* ── Info rows ───────────────────────────────── */
+.info-rows { display: flex; flex-direction: column; gap: 0; }
+.info-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.info-row:last-child { border-bottom: none; }
+.info-row .key { font-size: 12px; color: var(--muted); }
+.info-row .val { font-size: 13px; font-weight: 600; font-family: var(--font-mono); }
+
+/* ── Links ───────────────────────────────────── */
+.link-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface2); border-radius: var(--radius);
+  border: 1px solid var(--border);
+  text-decoration: none; color: var(--text);
+  transition: border-color .2s; font-size: 14px;
+}
+.link-item:hover { border-color: var(--accent2); color: var(--accent2); }
+
+/* ── Edit inline ─────────────────────────────── */
+.edit-inline { cursor: pointer; border-bottom: 1px dashed var(--border2); transition: color .15s; }
+.edit-inline:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── Status selector ─────────────────────────── */
+.status-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.status-btn {
+  padding: 7px 14px; border-radius: var(--radius);
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface2);
+  color: var(--muted); font-family: var(--font-display);
+  transition: all .15s; text-transform: uppercase; letter-spacing: .5px;
+}
+.status-btn.active.potential { background: rgba(255,184,0,.15); border-color: var(--warn); color: var(--warn); }
+.status-btn.active.confirmed { background: rgba(0,255,136,.1); border-color: var(--accent); color: var(--accent); }
+.status-btn.active.claimed   { background: rgba(0,207,255,.1); border-color: var(--accent2); color: var(--accent2); }
+.status-btn.active.missed    { background: rgba(255,77,106,.1); border-color: var(--danger); color: var(--danger); }
+.status-btn:not(.active):hover { border-color: var(--border2); color: var(--text2); }
